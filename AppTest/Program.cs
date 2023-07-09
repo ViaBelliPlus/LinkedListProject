@@ -1,6 +1,10 @@
 ﻿using LinkedListPlus;
-
+ViaListNode<int> a = new(123);
 ViaList<int> list = new();
 list.AddFirst(1);
 list.AddFirst(2);
+list.AddLast(3);
+list.AddAfter(list.Head,12);
+list.AddBefore(list.Tail,120);
+list.AddBefore(list.Tail, a);
 Console.ReadLine();
