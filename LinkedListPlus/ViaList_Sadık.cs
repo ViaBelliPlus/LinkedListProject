@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,18 +15,24 @@ namespace LinkedListPlus
             //ilk tanımlanma ısrasında hazır bir listeyi bu listeye ekleme işlemini yapar
             foreach (var item in collection)
             {
-                //this.Add(item);
+                this.AddFirst(item);
                 throw new NotImplementedException();
             }
         }
 
-        public T Removelast()
+        public T RemoveFirst()
         {
-            throw new NotImplementedException();
+            var value = Head.Value; //degeri dönmek için tutuk
+            Head.Next.Back = null; // []->[]  2. degerın öncesini null yaptık 
+            Head=Head.Next; //yeni başlangiç değerimiz bir sonraki
+            return value;
         }
-        public T Remove()
+        public T RemoveLast()
         {
-            throw new NotImplementedException();
+            var value = Tail.Value;//degeri dönmek için tutuk
+            Tail.Back.Next = null;// []<-[] sondan 1 öncekinin sonrasını null yaptık 
+            Tail = Tail.Back; //yeni tail bi önceki yapıldı
+            return value;
         }
        
 
