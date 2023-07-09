@@ -32,7 +32,13 @@ namespace LinkedListPlus
         {
             
         }
-
+        public ViaList(params T[] initial)
+        {
+            foreach (var item in initial)
+            {
+                AddLast(item);
+            }
+        }
         public void AddFirst(T item)
         {
             if (item == null) throw new ArgumentException("Item must not be null");
@@ -112,12 +118,20 @@ namespace LinkedListPlus
             newNode.Next = next;
             Count++;
         }
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (var item in collection)
+            {
+                AddLast(item);
+            }
+        }
         public T[] CopyTo(T[] toCopy, int index)
         {
             if (toCopy == null) throw new ArgumentNullException("The referance array must not be empty!");
             if (Head == null) throw new ArgumentNullException("The current list is empty!");
+            if (Count > toCopy.Length - index) throw new ArgumentException("There is not enough space in the specified array");
             var ptr = Head;
-            for (int i = index; i < toCopy.Length; i++)
+            for (int i = index; ptr != null; i++)
             {
                 try
                 {
@@ -158,14 +172,16 @@ namespace LinkedListPlus
         {
             ViaListNode<T> currentHead = Head;
             ViaListNode<T> currentTail = Tail;
-            while (currentHead != currentTail) 
+            while (currentHead != currentTail && (currentHead != null && currentTail != null)) 
             {
-                currentHead.Invalidate();
-                currentTail.Invalidate();
+                ViaListNode<T> tempHead = currentHead;
+                ViaListNode<T> tempTail = currentTail;
                 currentHead = currentHead.Next;
                 currentTail = currentTail.Back;
+                tempHead.Invalidate();
+                tempTail.Invalidate();
             }
-            currentHead.Invalidate();
+            currentHead?.Invalidate();
             Head = null;
             Tail = null;
             Count = 0;
