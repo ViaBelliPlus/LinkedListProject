@@ -37,9 +37,12 @@ foreach (int i in a)
 //{
 //    Console.WriteLine(i);
 //}
+Console.WriteLine("-------------");
 
-a.RemoveFirst(a.SerchNode(5));
+a[1] = 99;
+Console.WriteLine(a[1]);
 
+Console.WriteLine("-------------");
 foreach (int i in a)
 {
     Console.WriteLine(i);
