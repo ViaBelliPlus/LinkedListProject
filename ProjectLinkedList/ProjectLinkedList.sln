@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedListPlus", "..\LinkedListPlus\LinkedListPlus.csproj", "{C3410C6F-01A4-40CD-B7FB-E690CEC94CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkedListPlus", "..\LinkedListPlus\LinkedListPlus.csproj", "{C3410C6F-01A4-40CD-B7FB-E690CEC94CB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTest", "..\AppTest\AppTest.csproj", "{BDB3C559-F780-4ABF-A363-6601D08E2DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTest(Tahiri)", "..\AppTest\AppTest(Tahiri).csproj", "{BDB3C559-F780-4ABF-A363-6601D08E2DB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTest(Sadık)", "AppTest(Sadık)\AppTest(Sadık).csproj", "{94742A89-C9F7-42EE-B170-EEFDB44AEF94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BDB3C559-F780-4ABF-A363-6601D08E2DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB3C559-F780-4ABF-A363-6601D08E2DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB3C559-F780-4ABF-A363-6601D08E2DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94742A89-C9F7-42EE-B170-EEFDB44AEF94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94742A89-C9F7-42EE-B170-EEFDB44AEF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94742A89-C9F7-42EE-B170-EEFDB44AEF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94742A89-C9F7-42EE-B170-EEFDB44AEF94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
