@@ -32,7 +32,7 @@ namespace LinkedListPlus
             return value;
         }
 
-        public void RemoveFirst(ViaListNode<T> node)// []->[]->[]
+        public void RemoveAfter(ViaListNode<T> node)// []->[]->[]
         {
             if (node == null)
             {
@@ -76,7 +76,7 @@ namespace LinkedListPlus
             return value;
         }
 
-        public void RemoveLast(ViaListNode<T> node)
+        public void RemoveBefore(ViaListNode<T> node)
         {
             if (node == null)
             {

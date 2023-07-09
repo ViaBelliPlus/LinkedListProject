@@ -38,8 +38,9 @@ foreach (int i in a)
 //    Console.WriteLine(i);
 //}
 
-a.RemoveFirst(a.SerchNode(5));
-
+a.RemoveLast();
+a.RemoveLast();
+Console.WriteLine("-------------");
 foreach (int i in a)
 {
     Console.WriteLine(i);
