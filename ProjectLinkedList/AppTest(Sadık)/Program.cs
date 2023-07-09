@@ -12,6 +12,13 @@ a.AddLast(5);
 a.AddLast(6);
 a.AddLast(7);
 
+a.RemoveAt(a.SerchNode(5));
+foreach (int i in a)
+{
+    Console.Write(i+" ");
+}
+
+
 ViaList<int> b = new();
 
 b.AddFirst(1);
@@ -23,7 +30,7 @@ b.AddFirst(6);
 b.AddFirst(7);
 Console.WriteLine("");
 Console.WriteLine("A");
-
+a.RemoveAt(a.SerchNode(5));
 foreach (int i in a)
 {
     Console.WriteLine(i);

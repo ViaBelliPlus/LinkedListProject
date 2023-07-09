@@ -191,31 +191,36 @@ namespace LinkedListPlus
         {
             if (node == null)
             {
-                throw new ArgumentException("Item must not be null");
+                throw new ArgumentException("Node must not be null");
             }
             if (node == Head && node == Tail)
             {
+                // Sadece bir düğüm varsa, listeyi boşalt
                 Head = null;
+                Tail = null;
             }
-            if (node == Head)
+            else if (node == Head)
             {
+                // İlk düğümü kaldırma
                 Head = Head.Next;
                 Head.Back = null;
-                count--;
-                return;
             }
-            if (node == Tail)
+            else if (node == Tail)
             {
+                // Son düğümü kaldırma
                 Tail = Tail.Back;
                 Tail.Next = null;
-                count--;
-                return;
+            }
+            else
+            {
+                // Aradaki bir düğümü kaldırma
+                ViaListNode<T> prevNode = node.Back;
+                ViaListNode<T> nextNode = node.Next;
+                prevNode.Next = nextNode;
+                nextNode.Back = prevNode;
             }
 
-            node.Back = node.Next;
-            node.Next = node.Back;
             count--;
-            return;
         }
 
         public void RemoveAtValue(T value)
