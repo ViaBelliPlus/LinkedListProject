@@ -15,5 +15,7 @@ namespace LinkedListPlus
         {
             
         }
+
+        //Metot1
     }
 }
