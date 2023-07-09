@@ -6,18 +6,14 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public class ViaList<T>
+    public partial class ViaList<T>
     {
-        public ViaListNode<T> Head { get; set; } //başkısım
-        public ViaListNode<T> Tail { get; set; } //sonkısım
+        public ViaListNode<T> Head { get; set; } //Baş
+        public ViaListNode<T> Tail { get; set; } //Kuyruk
 
         public ViaList() 
         {
             
         }
-
-        //sadık sunbul  asfsafasf
-
-        //MetotTahiri
     }
 }
