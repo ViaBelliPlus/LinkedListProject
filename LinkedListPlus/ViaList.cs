@@ -16,7 +16,5 @@ namespace LinkedListPlus
             
         }
 
-        //sadık sunbul  asfsafasf
-
     }
 }
