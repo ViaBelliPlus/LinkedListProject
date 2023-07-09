@@ -9,25 +9,38 @@ a.AddFirst(2);
 a.AddFirst(3);
 a.AddFirst(4);
 a.AddFirst(5);
+a.AddFirst(6);
+a.AddFirst(7);
 
 foreach (int i in a)
 {
     Console.WriteLine(i);
 }
 
-a.RemoveFirst();
-Console.WriteLine("a----------------");
-foreach (int i in a)
-{
-    Console.WriteLine(i);
-}
-a.RemoveLast();
-Console.WriteLine("a----------------");
-foreach (int i in a)
-{
-    Console.WriteLine(i);
-}
+//a.RemoveFirst();
+//Console.WriteLine("a----------------");
+//foreach (int i in a)
+//{
+//    Console.WriteLine(i);
+//}
+//a.RemoveLast();
+//Console.WriteLine("a----------------");
+//foreach (int i in a)
+//{
+//    Console.WriteLine(i);
+//}
 
-Console.WriteLine(a.Serch(3));
-Console.WriteLine(a.SerchNode(3).Value);
-Console.WriteLine(a.SerchNode(3).Next.Value);
+//a.RemoveAt(a.SerchNode(2));
+
+//Console.WriteLine("a----------------");
+//foreach (int i in a)
+//{
+//    Console.WriteLine(i);
+//}
+
+a.RemoveFirst(a.SerchNode(5));
+
+foreach (int i in a)
+{
+    Console.WriteLine(i);
+}
