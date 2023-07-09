@@ -32,6 +32,29 @@ namespace LinkedListPlus
             return value;
         }
 
+        public T this[int index]
+        {
+            get
+            {
+                var value= Head;
+                for (int i = 0; i < index; i++)
+                {
+                    value = value.Next;
+                }
+                return value.Value;
+            }
+            set
+            {
+                var data = Head;
+                for (int i = 0; i < index; i++)
+                {
+                    data = data.Next;
+                }
+                data.Value = value;
+            }
+
+        }
+
         public void RemoveAfter(ViaListNode<T> node)// []->[]->[]
         {
             if (node == null)
@@ -57,7 +80,7 @@ namespace LinkedListPlus
                 count--;
                 return;
             }
-            else if(node.Next.Next==null)
+            else if (node.Next.Next == null)
             {
                 throw new ArgumentNullException();
             }
@@ -98,7 +121,8 @@ namespace LinkedListPlus
             else if (Tail == node)
             {
                 throw new Exception("Baş kısımın öncesi yok tur");
-            }else if (node.Back.Back==null)
+            }
+            else if (node.Back.Back == null)
             {
                 throw new ArgumentNullException();
             }

@@ -37,9 +37,11 @@ foreach (int i in a)
 //{
 //    Console.WriteLine(i);
 //}
+Console.WriteLine("-------------");
 
-a.RemoveLast();
-a.RemoveLast();
+a[1] = 99;
+Console.WriteLine(a[1]);
+
 Console.WriteLine("-------------");
 foreach (int i in a)
 {
