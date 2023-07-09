@@ -28,3 +28,6 @@ foreach (int i in a)
     Console.WriteLine(i);
 }
 
+Console.WriteLine(a.Serch(3));
+Console.WriteLine(a.SerchNode(3).Value);
+Console.WriteLine(a.SerchNode(3).Next.Value);
