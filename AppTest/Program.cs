@@ -7,4 +7,5 @@ list.AddLast(3);
 list.AddAfter(list.Head,12);
 list.AddBefore(list.Tail,120);
 list.AddBefore(list.Tail, a);
+Console.WriteLine(list.Count);
 Console.ReadLine();
