@@ -9,7 +9,7 @@ namespace LinkedListPlus
 {
     public partial class ViaList<T> : IEnumerable<T>
     {
-        //Methot1
+        
         public IEnumerator<T> GetEnumerator()
         {
             return new ViaListEnumerator<T>(Head);
