@@ -16,6 +16,7 @@ namespace LinkedListPlus
             
         }
 
+        //sadık sunbul
 
     }
 }
