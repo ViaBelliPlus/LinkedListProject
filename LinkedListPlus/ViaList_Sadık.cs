@@ -28,6 +28,7 @@ namespace LinkedListPlus
             var value = Head.Value; //degeri dönmek için tutuk
             Head.Next.Back = null; // []->[]  2. degerın öncesini null yaptık 
             Head = Head.Next; //yeni başlangiç değerimiz bir sonraki
+            count--;
             return value;
         }
 
@@ -53,6 +54,7 @@ namespace LinkedListPlus
             {
                 Tail = Tail.Next;
                 Tail.Back = null;
+                count--;
                 return;
             }
             else if(node.Next.Next==null)
@@ -61,6 +63,7 @@ namespace LinkedListPlus
             }
             node.Next = node.Next.Next;
             node.Next.Next.Back = node.Next;
+            count--;
             return;
         }
 
@@ -69,6 +72,7 @@ namespace LinkedListPlus
             var value = Tail.Value;//degeri dönmek için tutuk
             Tail.Back.Next = null;// []<-[] sondan 1 öncekinin sonrasını null yaptık 
             Tail = Tail.Back; //yeni tail bi önceki yapıldı
+            count--;
             return value;
         }
 
@@ -100,6 +104,7 @@ namespace LinkedListPlus
             }
             node.Back = node.Back.Back;
             node.Back.Back.Next = node.Back;
+            count--;
             return;
         }
 
@@ -110,7 +115,7 @@ namespace LinkedListPlus
                 throw new ArgumentException("Item must not be null");
             }
             var respons = SerchNode(value);
-
+            count--;
             return respons;
         }
 
@@ -128,15 +133,21 @@ namespace LinkedListPlus
             {
                 Head = Head.Next;
                 Head.Back = null;
+                count--;
+                return;
             }
             if (node == Tail)
             {
                 Tail = Tail.Back;
                 Tail.Next = null;
+                count--;
+                return;
             }
 
             node.Back = node.Next;
             node.Next = node.Back;
+            count--;
+            return;
         }
 
         public T RemoveAtValue(T value)
@@ -146,7 +157,7 @@ namespace LinkedListPlus
                 throw new ArgumentException("Item must not be null");
             }
             var respons = SerchNode(value);
-
+            count--;
             return respons.Value;
         }
 
