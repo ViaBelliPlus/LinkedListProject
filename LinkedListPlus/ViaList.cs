@@ -17,5 +17,8 @@ namespace LinkedListPlus
         }
 
 
+
+        //MetotDeneme
+
     }
 }
