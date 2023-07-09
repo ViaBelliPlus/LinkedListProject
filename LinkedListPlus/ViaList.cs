@@ -16,9 +16,8 @@ namespace LinkedListPlus
             
         }
 
+        //sadık sunbul  asfsafasf
 
-
-        //MetotDeneme
-
+        //MetotTahiri
     }
 }
