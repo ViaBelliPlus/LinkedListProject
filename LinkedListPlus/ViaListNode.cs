@@ -19,5 +19,11 @@ namespace LinkedListPlus
         public T Value { get; set; } //nod değeri
 
         public override string ToString() => $"{Value}";
+
+        public void Invalidate()
+        {
+            Next = null;
+            Back = null;
+        }
     }
 }
