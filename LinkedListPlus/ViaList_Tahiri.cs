@@ -15,5 +15,22 @@ namespace LinkedListPlus
         {
             
         }
+
+        public void AddFirst(T item)
+        {
+            if (item == null) throw new ArgumentException("Item must not be null");
+            ViaListNode<T> newNode = new ViaListNode<T>(item);
+            
+            if (Head == null & Tail == null)
+            {
+                Head = newNode;
+                Tail = newNode;
+                return;
+            }
+
+            Head.Back = newNode;
+            newNode.Next = Head;
+            Head = newNode;
+        }
     }
 }
