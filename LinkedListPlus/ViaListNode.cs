@@ -13,14 +13,11 @@ namespace LinkedListPlus
             Value = value;
         }
 
-        public ViaListNode<T> Next { get; set; }
-        public ViaListNode<T> Back { get; set; }
+        public ViaListNode<T> Next { get; set; }  //sonraki nod
+        public ViaListNode<T> Back { get; set; }  //önceki nod
 
-        public T Value { get; set; }
+        public T Value { get; set; } //nod değeri
 
-        public override string ToString()
-        {
-            return $"{Value}";
-        }
+        public override string ToString() => $"{Value}";
     }
 }
