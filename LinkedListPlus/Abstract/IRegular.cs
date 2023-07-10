@@ -8,6 +8,6 @@ namespace LinkedListPlus
 {
     public interface IRegular<T> : IViaList
     {
-        void AddFirst(T Value);
+        
     }
 }

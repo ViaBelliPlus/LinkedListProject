@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class Regular<T> : IEnumerable<T>
+    public partial class Regular<T> : IEnumerable<T>,IRegular<T>
     {
         public Regular(IEnumerable<T> collection)
         {

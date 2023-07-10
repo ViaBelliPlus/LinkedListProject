@@ -8,7 +8,6 @@ namespace LinkedListPlus
 {
     public interface ILithe : IViaList
     {
-        void AddFirst(object value);
-        void Remove(object value);
+        
     }
 }
