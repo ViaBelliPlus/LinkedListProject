@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T>
+    public partial class ViaList<T> : IRegular<T>
     {
         private readonly ListType type;
         private readonly ILithe _lithe;
