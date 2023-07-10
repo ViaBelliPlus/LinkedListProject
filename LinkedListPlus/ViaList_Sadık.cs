@@ -23,7 +23,10 @@ namespace LinkedListPlus
             ArrayList a = new();
 
         }
-
+        /// <summary>
+        /// Bağlı listenin ilk elemanını siler ve değerini döndürür
+        /// </summary>
+        /// <returns></returns>
         public T RemoveFirst()
         {
             var value = Head.Value; // Değeri dönmek için geçici bir değişkende sakla
@@ -43,19 +46,25 @@ namespace LinkedListPlus
             return value; // Kaldırılan değeri dön
         }
 
+        /// <summary>
+        /// Verilen index dizinin boyutunu geçmemelidir okuma ve yazma işlemleri yapabilirsiniz
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public T this[int index]
         {
-            
+
             get
             {
-                var value = Head;
-                if (count<=index)
+                if (count <= index)
                 {
+                    var value = Head;
                     for (int i = 0; i < index; i++)
-                    {
-                        value = value.Next;
+                    { //istenilen index den 1 fazlası kadar düğümü ileriye alıyoruz
+                        value = value.Next; 
                     }
-                    return value.Value;
+                    return value.Value; //değeri döndürüyoruz
                 }
                 else
                 {
@@ -64,11 +73,11 @@ namespace LinkedListPlus
             }
             set
             {
-                if (count <= index)
+                if (count <= index) //listemizin boyutundan buyuk olammalıdır ındex degeri
                 {
                     var data = Head;
                     for (int i = 0; i < index; i++)
-                    {
+                    { //istenilen index den 1 fazlası kadar düğümü ileriye alıyoruz
                         data = data.Next;
                     }
                     data.Value = value;
@@ -77,11 +86,16 @@ namespace LinkedListPlus
                 {
                     throw new Exception();
                 }
-                
+
             }
 
         }
 
+        /// <summary>
+        /// Girilen ViaListNode<T> den sonraki değeri siler ve void döner
+        /// </summary>
+        /// <param name="node"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void RemoveAfter(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
@@ -91,35 +105,41 @@ namespace LinkedListPlus
             {
                 throw new ArgumentNullException(nameof(node), "Düğüm null olamaz.");
             }
-            if (node==Head)
+            if (node == Head) //head e eşit ise bi sonrasını silicez 
             {
+                //buradaki işlemde headin bi sonrakinin atlıayarak bağlantılar yapılıyor
                 Head.Next = Head.Next.Next;
                 Head.Next.Next.Back = Head;
-                disconnection(delete);
-                count--;
+                disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                count--; //count azaltılıyor
                 return;
             }
-            if (node==Tail)
+            if (node == Tail) //tailden sonrası olmadığı için bişey yapmıycaz
             {
                 return; //sonrası yok 
             }
-            if (node==Tail.Back)
+            if (node == Tail.Back) //tailin 1 öncesine eşit isen 
             {
-                Tail = Tail.Back;
-                disconnection(delete);
-                count--;
+                Tail = Tail.Back; //taili güncelle
+                Tail.Next = null; //bunu işaretlediğini silmez isek garbic collector oncekı taılın referansını tutugu ıcın sılmıycektır onu 
+                disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                count--;//count azaltılıyor
                 return;
             }
+            //arada biyerde ise normal atlıycak sekilde yazzılır
             node.Next.Next.Back = node;
-            node.Next=node.Next.Next;
-
-            count--;
+            node.Next = node.Next.Next;
+            disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+            count--;//count azaltılıyor
             return;
 
         }
 
-
-
+        /// <summary>
+        /// Bağlı listenin sondaki degerini siler ve değerini döndürür
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public T RemoveLast()
         {
             if (Tail == null)
@@ -145,48 +165,64 @@ namespace LinkedListPlus
             return value; // Saklanan değeri döndürürüz
         }
 
-
+        /// <summary>
+        /// Girilen ViaListNode<T> den önceki değeri siler ve void döner
+        /// </summary>
+        /// <param name="node"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void RemoveBefore(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
-            var delete = node.Next;
+            var delete = node.Back;
             // İlk olarak, düğümün null olup olmadığını kontrol ediyoruz.
             if (node == null)
             {
                 throw new ArgumentNullException(nameof(node), "Düğüm null olamaz.");
             }
-            if (node == Head)
+            if (node == Tail) 
             {
-                Head.Back = Head.Back.Back;
-                Head.Back.Back.Next = Head;
-                disconnection(delete);
+                
+                Tail.Back = Tail.Back.Back;
+                Tail.Back.Next = Tail;
+               // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
                 return;
             }
-            if (node == Tail)
+            if (node == Head) 
             {
-                return; //sonrası yok 
+                return; //öncesi yok bişey yapmaya gerek yoktur
             }
-            if (node == Tail.Next)
+            if (node == Head.Next) //Tailin sonraki ise oncesi tail yapar 
             {
-                Tail = Tail.Next;
-                disconnection(delete);
+                Head = Head.Next; //Tail güncellenir
+                Head.Back = null; //Tamamen bağ kopsun diye yapıldı garbic collector oncekı head referansını tutugu ıcın sılmıycektır onu
+                disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
                 return;
             }
+            //Arada biyer ise
             node.Back.Back.Next = node;
             node.Back = node.Back.Back;
-
+            disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             count--;
             return;
         }
 
+        /// <summary>
+        /// garbic collector daha rahat silinen değeri farkede bilsi diye bağlantılarını kaldırıma işlemi yapar
+        /// </summary>
+        /// <param name="node"></param>
         public void disconnection(ViaListNode<T> node)
         {
             node.Next = null;
             node.Back = null;
         }
 
+        /// <summary>
+        /// Verilen ViaListNode<T> listeden siler void döner
+        /// </summary>
+        /// <param name="node"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void RemoveAt(ViaListNode<T> node)
         {
             if (node == null)
@@ -223,45 +259,62 @@ namespace LinkedListPlus
             count--;
         }
 
+        /// <summary>
+        /// Bir T  değeri alır ve verilen değer var ise siler void döner
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void RemoveAtValue(T value)
         {
             if (value == null)
             {
                 throw new ArgumentException("Item must not be null");
             }
-            var respons = SerchNode(value);
-            RemoveAt(respons);
-            count--;
-            
+            RemoveAt(SearchNode(value)); //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
+                                         //count--; //bunu yapamayız cunku usteki removeat de de orası calışmış olucak normalden 1 eksık eleman gosterıcektır 
+
         }
 
-        public ViaListNode<T> SerchNode(T value)
+        /// <summary>
+        /// Verilen T değerini alır kendi ViaList'inizde var mı yok mu kontrol eder ve ViaListNode<T> döner
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="Exception"></exception>
+        public ViaListNode<T> SearchNode(T value)
         {
             if (value == null)
             {
-                throw new ArgumentException("Item must not be null");
+                throw new ArgumentException("Öğe boş olmamalı"); // Değer boş ise bir ArgumentException fırlatılır.
             }
 
-            var _current = Head;
+            var _current = Head; // Başlangıç düğümü başa ayarlanır.
             while (_current != null)
             {
                 if (_current.Value.Equals(value))
                 {
-                    return _current;
+                    return _current; // Aranan değer bulunduğunda ilgili düğüm döndürülür.
                 }
-                _current = _current.Next;
+                _current = _current.Next; // Bir sonraki düğüme geçilir.
             }
-            throw new Exception();
+            throw new Exception("Aranan değer bulunamadı"); // Döngü tamamlandığında hata fırlatılır çünkü aranan değer bulunamadı.
         }
 
-        public bool Serch(T value) => SerchNode(value) != null ? true : false;
+        /// <summary>
+        ///Verilen T değerini alır kendi ViaList'inizde var mı yok mu kontrol eder ve bool döner
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool Serch(T value) => SearchNode(value) != null ? true : false;
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator() //IEnumerable<T> den inplament edilince gelir burası
         {
-            return new ViaListEnumerator<T>(Head);
+            //bunun yazılmasının sonucunda foreach ve linq sorgularının yapılmasını sağlar
+            return new ViaListEnumerator<T>(Head); // Yeni bir ViaListEnumerator oluşturarak başlangıç düğümünü parametre olarak veriyoruz ve bu numaralandırıcıyı döndürüyoruz.
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()//IEnumerable<T> den inplament edilince gelir burası
         {
             return GetEnumerator();
         }
