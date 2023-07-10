@@ -57,7 +57,7 @@ namespace LinkedListPlus
 
             get
             {
-                if (count <= index)
+                if (count >= index)
                 {
                     var value = Head;
                     for (int i = 0; i < index; i++)
@@ -73,7 +73,7 @@ namespace LinkedListPlus
             }
             set
             {
-                if (count <= index) //listemizin boyutundan buyuk olammalıdır ındex degeri
+                if (value != null && count >= index) //listemizin boyutundan buyuk olammalıdır ındex degeri
                 {
                     var data = Head;
                     for (int i = 0; i < index; i++)
@@ -81,6 +81,13 @@ namespace LinkedListPlus
                         data = data.Next;
                     }
                     data.Value = value;
+                }
+                else if(count + 1 == index)
+                {
+                    if(value != null)
+                    {
+                        AddLast(value);
+                    }
                 }
                 else
                 {
@@ -110,7 +117,7 @@ namespace LinkedListPlus
                 //buradaki işlemde headin bi sonrakinin atlıayarak bağlantılar yapılıyor
                 Head.Next = Head.Next.Next;
                 Head.Next.Next.Back = Head;
-                disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--; //count azaltılıyor
                 return;
             }
@@ -122,14 +129,14 @@ namespace LinkedListPlus
             {
                 Tail = Tail.Back; //taili güncelle
                 Tail.Next = null; //bunu işaretlediğini silmez isek garbic collector oncekı taılın referansını tutugu ıcın sılmıycektır onu 
-                disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;//count azaltılıyor
                 return;
             }
             //arada biyerde ise normal atlıycak sekilde yazzılır
             node.Next.Next.Back = node;
             node.Next = node.Next.Next;
-            disconnection(delete); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+            delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             count--;//count azaltılıyor
             return;
 
@@ -196,26 +203,16 @@ namespace LinkedListPlus
             {
                 Head = Head.Next; //Tail güncellenir
                 Head.Back = null; //Tamamen bağ kopsun diye yapıldı garbic collector oncekı head referansını tutugu ıcın sılmıycektır onu
-                disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
                 return;
             }
             //Arada biyer ise
             node.Back.Back.Next = node;
             node.Back = node.Back.Back;
-            disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+            delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             count--;
             return;
-        }
-
-        /// <summary>
-        /// garbic collector daha rahat silinen değeri farkede bilsi diye bağlantılarını kaldırıma işlemi yapar
-        /// </summary>
-        /// <param name="node"></param>
-        public void disconnection(ViaListNode<T> node)
-        {
-            node.Next = null;
-            node.Back = null;
         }
 
         /// <summary>

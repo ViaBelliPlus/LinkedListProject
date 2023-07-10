@@ -19,7 +19,9 @@ namespace LinkedListPlus
         public T Value { get; set; } //nod değeri
 
         public override string ToString() => $"{Value}";
-
+        /// <summary>
+        /// Node'un referans ettiği diğer node'ları geçersiz kılar.
+        /// </summary>
         public void Invalidate()
         {
             Next = null;

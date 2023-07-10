@@ -9,7 +9,8 @@ a.AddLast(4);
 a.AddLast(5);
 a.AddLast(6);
 a.AddLast(7);
-
+a[8] = 90;
+a[9] = 20;
 foreach (int i in a)
 {
     Console.Write(i+" ");
