@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public interface IVialist<T> 
+    public partial interface IVialist<T> 
     {
         uint Count { get;  }
         void AddFirst(T item);
