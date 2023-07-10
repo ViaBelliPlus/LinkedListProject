@@ -2,7 +2,7 @@
 using LinkedListPlus;
 using System.Collections;
 
-Regular<int> a = new();
+ViaList<int> a = new();
 a.AddLast(1);
 a.AddLast(2);
 a.AddLast(3);

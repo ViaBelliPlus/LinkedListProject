@@ -4,8 +4,8 @@ internal class Program
     private static void Main(string[] args)
     {
         int[] into = new int[100];
-        Regular<int> a = new Regular<int>(10, 20, 30);
-        Regular<int> list = new();
+        ViaList<int> a = new ViaList<int>(10, 20, 30);
+        ViaList<int> list = new();
         list.AddFirst(1);
         list.AddFirst(2);
         list.AddLast(3);
