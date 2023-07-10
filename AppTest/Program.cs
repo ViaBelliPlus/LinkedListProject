@@ -4,7 +4,7 @@ internal class Program
     private static void Main(string[] args)
     {
         int[] into = new int[100];
-        ViaList<into.GetType().GetType()> a = new ViaList<into.GetType().GetType() >;
+        ViaList<int> a = new ViaList<int>(10, 20, 30);
         ViaList<int> list = new();
         list.AddFirst(1);
         list.AddFirst(2);
