@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T> : IEnumerable<T>
+    public partial class Regular<T> : IEnumerable<T>
     {
-        public ViaList(IEnumerable<T> collection)
+        public Regular(IEnumerable<T> collection)
         {
             //ilk tanımlanma ısrasında hazır bir listeyi bu listeye ekleme işlemini yapar
             foreach (var item in collection)
             {
-                this.AddFirst(item);
+                AddFirst(item);
                 throw new NotImplementedException();
             }
             ArrayList a = new();

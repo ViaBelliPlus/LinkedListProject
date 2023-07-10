@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T>
+    public partial class Regular<T>
     {
         public ViaListNode<T> Head { get; set; } //Baş
         public ViaListNode<T> Tail { get; set; } //Kuyruk
+
         /// <summary>
         /// Listenin uzunluğunu döner.
         /// </summary>
@@ -31,15 +32,15 @@ namespace LinkedListPlus
         }
         private uint count;
 
-        public ViaList() 
+        public Regular() 
         {
-            
+
         }
         /// <summary>
         /// Kullanıcı istediği kadar öğeyi girerek, listeyi initialize edebilir. 
         /// </summary>
         /// <param name="initial"></param>
-        public ViaList(params T[] initial)
+        public Regular(params T[] initial)
         {
             foreach (var item in initial)
             {
@@ -55,7 +56,7 @@ namespace LinkedListPlus
         {
             if (item == null) throw new ArgumentException("Item must not be null");
             ViaListNode<T> newNode = new ViaListNode<T>(item);
-            
+
             if (Head == null & Tail == null)
             {
                 Head = newNode;

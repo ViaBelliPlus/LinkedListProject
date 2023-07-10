@@ -1,7 +1,7 @@
 ﻿
 using LinkedListPlus;
 
-ViaList<int> a = new();
+Regular<int> a = new();
 a.AddLast(1);
 a.AddLast(2);
 a.AddLast(3);
