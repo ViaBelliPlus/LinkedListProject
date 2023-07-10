@@ -1,5 +1,6 @@
 ﻿
 using LinkedListPlus;
+using System.Collections;
 
 ViaList<int> a = new();
 a.AddLast(1);
@@ -22,5 +23,6 @@ foreach (int i in a)
 {
     Console.Write(i + " ");
 }
+
 
 Console.WriteLine();
