@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T>:IVialist<T>
+    public partial class DefaultList<T> : IViaList<T>
     {
-        public ViaListNode<T> Head { get; set; } //Baş
-        public ViaListNode<T> Tail { get; set; } //Kuyruk
+        public ViaListNode<T> Head { get; private set; } //Baş
+        public ViaListNode<T> Tail { get; private set; } //Kuyruk
 
         /// <summary>
         /// Listenin uzunluğunu döner.
@@ -30,17 +31,20 @@ namespace LinkedListPlus
             }
             private set { count = value; }
         }
+
+        public bool IsEmpty => Count == 0 ? true : false;
+
         private uint count;
 
-        public ViaList() 
+        public DefaultList() 
         {
-            if()
+            
         }
         /// <summary>
         /// Kullanıcı istediği kadar öğeyi girerek, listeyi initialize edebilir. 
         /// </summary>
         /// <param name="initial"></param>
-        public ViaList(params T[] initial)
+        public DefaultList(params T[] initial)
         {
             foreach (var item in initial)
             {
@@ -255,5 +259,29 @@ namespace LinkedListPlus
             Tail = null;
             Count = 0;
         }
+
+        public ViaList<ViaListNode<T>> SearchAll(T value)
+        {
+            ViaList<ViaListNode<T>> nodes = new();
+            var ptr = Head;
+            while(ptr != null) { if (value.Equals(ptr.Value)) { nodes.AddLast(ptr); } }
+            return nodes;
+        }
+
+        public void AddSort(T Value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Sort()
+        {
+            
+        }
+        
+    }
+    public enum TypeList
+    {
+        DefaultList = 0,
+        SortedLis = 1
     }
 }
