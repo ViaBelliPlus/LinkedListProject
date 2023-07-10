@@ -34,7 +34,7 @@ namespace LinkedListPlus
 
         public ViaList() 
         {
-
+            if()
         }
         /// <summary>
         /// Kullanıcı istediği kadar öğeyi girerek, listeyi initialize edebilir. 
