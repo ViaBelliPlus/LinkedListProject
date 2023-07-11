@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public interface IResult
+    public partial class ViaList<T>
     {
-        string Message { get; init; }
-        bool Success { get; }
     }
 }

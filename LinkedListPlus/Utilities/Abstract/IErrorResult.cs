@@ -8,6 +8,6 @@ namespace LinkedListPlus
 {
     public interface IErrorResult : IResult
     {
-       ///ApplicationException NuLLReferanceException(Exception exception);
+       
     }
 }

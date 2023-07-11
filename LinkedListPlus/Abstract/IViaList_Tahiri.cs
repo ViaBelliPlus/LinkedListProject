@@ -10,11 +10,13 @@ namespace LinkedListPlus
     {
         public ViaListNode<T> Tail { get; }
         public ViaListNode<T> Head { get; }
+        bool IsDecimalTypeList { get; init; }
         bool IsEmpty { get;}
         ViaList<ViaListNode<T>> SearchAll(T value);
         bool SerachFirst(T value);
-        void AddSort(T Value);
-        void Sort();
+        IResult AddSort(T Value);
+        IResult Sort();
         IEnumerator<T> GetEnumerator();
+        bool IsDecimalType(Type type);
     }
 }

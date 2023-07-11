@@ -5,7 +5,8 @@ internal class Program
     {
         int[] into = new int[100];
         ViaList<object> list1 = new ViaList<object>();
-        list1.AddFirst(null);
+        list1.AddFirst(1);
+        list1.Clear();
         ViaList<int> a = new ViaList<int>(10, 20, 30);
         ViaList<int> list = new();
         list.AddFirst(1);

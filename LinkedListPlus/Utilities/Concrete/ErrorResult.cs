@@ -8,5 +8,16 @@ namespace LinkedListPlus
 {
     public class ErrorResult : IErrorResult
     {
+        public string Message { get; init; }
+
+        public bool Success => false;
+        public ErrorResult()
+        {
+            Message = "Başarısız";
+        }
+        public ErrorResult(string message)
+        {
+            Message = message;
+        }
     }
 }

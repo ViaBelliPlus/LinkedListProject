@@ -34,18 +34,18 @@ namespace LinkedListPlus
         }
 
         public bool IsEmpty => Count == 0 ? true : false;
-
+        public bool IsDecimalTypeList { get; init; }
         private uint count;
 
         public DefaultList() 
         {
-            
+            IsDecimalTypeList = IsDecimalType(typeof(T));
         }
         /// <summary>
         /// Kullanıcı istediği kadar öğeyi girerek, listeyi initialize edebilir. 
         /// </summary>
         /// <param name="initial"></param>
-        public DefaultList(params T[] initial)
+        public DefaultList(params T[] initial):this()
         {
             foreach (var item in initial)
             {
@@ -270,14 +270,21 @@ namespace LinkedListPlus
             return nodes;
         }
 
-        public void AddSort(T Value)
+        public IResult AddSort(T Value)
         {
-            throw new NotImplementedException();
+            return new ErrorResult("Bu işlem bu liste için kullanılamıyor!");
         }
 
-        public void Sort()
+        public IResult Sort()
         {
-            
+            if (IsDecimalTypeList)
+            {
+                //Sırala
+            }
+            else
+            {
+                return new ErrorResult("Listeniz sıralanabilecek türden bir liste değil.");
+            }
         }
         private static void Validate(object? toValidate)
         {
@@ -286,6 +293,29 @@ namespace LinkedListPlus
         private static void Validate(object? toValidate , object? toValidate2)
         {
             if (toValidate == null || toValidate2 == null) throw new NullReferenceException("One or both of the related objects are null");
+        }
+        public bool IsDecimalType(Type type)
+        {
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.Int16:
+                case TypeCode.UInt16:
+                case TypeCode.Int32:
+                case TypeCode.UInt32:
+                case TypeCode.Int64:
+                case TypeCode.UInt64:
+                case TypeCode.Single:
+                case TypeCode.Double:
+                case TypeCode.Decimal:
+                case TypeCode.Boolean:
+                case TypeCode.Char:
+                case TypeCode.DateTime:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
     public enum TypeList

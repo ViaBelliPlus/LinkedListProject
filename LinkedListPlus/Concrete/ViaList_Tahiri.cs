@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public class ViaList<T> : IEnumerable<T>
+    public partial class ViaList<T> : IEnumerable<T>
     {
         public readonly IViaList<T> _viaList;
         public ViaListNode<T> Head => _viaList.Head;
@@ -17,10 +17,9 @@ namespace LinkedListPlus
         public uint Count => _viaList.Count;
 
         public bool IsEmpty => _viaList.IsEmpty;
-        public bool IsDecimalTypeList { get;}
+        public bool IsDecimalTypeList => _viaList.IsDecimalTypeList;
         public ViaList(TypeList type = TypeList.DefaultList)
         {
-            IsDecimalTypeList = IsDecimalType(typeof(T));
             if(type == TypeList.DefaultList)
             {
                 _viaList = new DefaultList<T>();
@@ -147,29 +146,6 @@ namespace LinkedListPlus
         public void Sort()
         {
             _viaList.Sort();
-        }
-        private bool IsDecimalType(Type type)
-        {
-            switch (Type.GetTypeCode(type))
-            {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.Int16:
-                case TypeCode.UInt16:
-                case TypeCode.Int32:
-                case TypeCode.UInt32:
-                case TypeCode.Int64:
-                case TypeCode.UInt64:
-                case TypeCode.Single:
-                case TypeCode.Double:
-                case TypeCode.Decimal:
-                case TypeCode.Boolean:
-                case TypeCode.Char:
-                case TypeCode.DateTime:
-                    return true;
-                default:
-                    return false;
-            }
         }
         public void RemoveRange(IEnumerable<T> collection)
         {
