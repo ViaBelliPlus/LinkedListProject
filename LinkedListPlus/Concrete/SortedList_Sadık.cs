@@ -10,7 +10,7 @@ namespace LinkedListPlus
             foreach (var item in collection)
             {
                 AddFirst(item);
-                throw new NotImplementedException();
+               
             }
             ArrayList a = new();
 
