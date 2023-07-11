@@ -8,14 +8,14 @@ namespace LinkedListPlus
 {
     public partial interface IViaList<T>
     {
-        uint Count { get; }
-        void AddFirst(T item);
-        void AddLast(T item);
-        void AddAfter(ViaListNode<T> node, T item);
-        void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode);
-        void AddBefore(ViaListNode<T> node, T item);
-        void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode);
-        void AddRange(IEnumerable<T> collection);
+        uint Count { get; set; }
+        abstract void AddFirst(T item);
+        abstract void AddLast(T item);
+        abstract void AddAfter(ViaListNode<T> node, T item);
+        abstract void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode);
+        abstract void AddBefore(ViaListNode<T> node, T item);
+        abstract void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode);
+        abstract void AddRange(IEnumerable<T> collection);
         T[] CopyTo(T[] toCopy, int index);
         T[] CopyToOneDimensionalArray();
         void Clear();

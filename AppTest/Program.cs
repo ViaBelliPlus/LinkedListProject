@@ -3,6 +3,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+
         int[] into = new int[100];
         ViaList<object> list1 = new ViaList<object>();
         list1.AddFirst(1);

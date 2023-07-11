@@ -8,5 +8,6 @@ namespace LinkedListPlus
 {
     public partial class ViaList<T>
     {
+
     }
 }

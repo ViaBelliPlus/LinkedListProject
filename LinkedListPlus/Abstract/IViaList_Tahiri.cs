@@ -8,8 +8,8 @@ namespace LinkedListPlus
 {
     public partial interface IViaList<T>
     {
-        public ViaListNode<T> Tail { get; }
-        public ViaListNode<T> Head { get; }
+        public ViaListNode<T> Tail { get; set; }
+        public ViaListNode<T> Head { get; set; }
         bool IsDecimalTypeList { get; init; }
         bool IsEmpty { get;}
         ViaList<ViaListNode<T>> SearchAll(T value);
@@ -20,5 +20,8 @@ namespace LinkedListPlus
         bool IsDecimalType(Type type);
         void Validate(object? toValidate);
         void Validate(object? toValidate, object? toValidate2);
+        void IncreaseCount();
+        void DecreaseCount();
+        void ResetCount();
     }
 }
