@@ -103,7 +103,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void RemoveAfter(ViaListNode<T> node)
+        public IResult RemoveAfter(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Next;
@@ -116,11 +116,11 @@ namespace LinkedListPlus
                 Head.Next.Next.Back = Head;
                 delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--; //count azaltılıyor
-                return;
+                return new SuccessResult("Remove After metodu başarılı çalıştı");
             }
             if (node == Tail) //tailden sonrası olmadığı için bişey yapmıycaz
             {
-                return; //sonrası yok 
+                return new SuccessResult("Son değerden sonrası olmadığı için silme işlemi yapılmadı"); //sonrası yok 
             }
             if (node == Tail.Back) //tailin 1 öncesine eşit isen 
             {
@@ -128,14 +128,14 @@ namespace LinkedListPlus
                 Tail.Next = null; //bunu işaretlediğini silmez isek garbic collector oncekı taılın referansını tutugu ıcın sılmıycektır onu 
                 delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;//count azaltılıyor
-                return;
+                return new SuccessResult("Remove After metodu başarılı çalıştı");
             }
             //arada biyerde ise normal atlıycak sekilde yazzılır
             node.Next.Next.Back = node;
             node.Next = node.Next.Next;
             delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             count--;//count azaltılıyor
-            return;
+            return new SuccessResult("Remove After metodu başarılı çalıştı");
 
         }
 
@@ -168,7 +168,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void RemoveBefore(ViaListNode<T> node)
+        public IResult RemoveBefore(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Back;
@@ -180,11 +180,11 @@ namespace LinkedListPlus
                 Tail.Back.Next = Tail;
                 // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
-                return;
+                return new SuccessResult("Remove Before başarılı çalıştı");
             }
             if (node == Head)
             {
-                return; //öncesi yok bişey yapmaya gerek yoktur
+                return new SuccessResult("Öncesi olmıyan bir değer verdiniz silme işlemi yapılmadı"); //öncesi yok bişey yapmaya gerek yoktur
             }
             if (node == Head.Next) //Tailin sonraki ise oncesi tail yapar 
             {
@@ -192,14 +192,14 @@ namespace LinkedListPlus
                 Head.Back = null; //Tamamen bağ kopsun diye yapıldı garbic collector oncekı head referansını tutugu ıcın sılmıycektır onu
                 delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
-                return;
+                return new SuccessResult("Remove Before başarılı çalıştı");
             }
             //Arada biyer ise
             node.Back.Back.Next = node;
             node.Back = node.Back.Back;
             delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             count--;
-            return;
+            return new SuccessResult("Remove Before başarılı çalıştı");
         }
 
         /// <summary>
@@ -207,9 +207,13 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void RemoveAt(ViaListNode<T> node)
+        public IResult RemoveAt(ViaListNode<T> node)
         {
             Validate(node);//null kontrolü
+            if (node.Next == null && node.Back == null)
+            {
+                throw new ArgumentException();
+            }
             if (node == Head && node == Tail)
             {
                 // Sadece bir düğüm varsa, listeyi boşalt
@@ -238,6 +242,7 @@ namespace LinkedListPlus
             }
 
             count--;
+            return new SuccessResult("Silme işlemi başarılı");
         }
 
         /// <summary>
@@ -245,11 +250,11 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void RemoveAtValue(T value)
+        public IResult RemoveAtValue(T value)
         {
             Validate(value);//null  kontrolü
-            RemoveAt(SearchNode(value)); //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
-                                         //count--; //bunu yapamayız cunku usteki removeat de de orası calışmış olucak normalden 1 eksık eleman gosterıcektır 
+            return RemoveAt(SearchNode(value)); //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
+                                                //count--; //bunu yapamayız cunku usteki removeat de de orası calışmış olucak normalden 1 eksık eleman gosterıcektır 
         }
 
         /// <summary>
@@ -312,16 +317,16 @@ namespace LinkedListPlus
         /// <param name="endİndex"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="Exception"></exception>
-        public void RemoveRange(int startİndex, int endİndex)
+        public IResult RemoveRange(int startİndex, int endİndex)
         {
             Validate(startİndex, endİndex);//null kontrolleri yapılıyor 
             if (endİndex > count - 1) //elemansayısından buyuk bir değerde silme işlemi olamaz -1 dememizin sebebi index olarak düşünmek
             {
-                throw new Exception();
+                return new ErrorResult("hatalı index girişi listenin uzunlugunu gecen bir değer verdiniz");
             }
             if (endİndex < startİndex) //end index buyuk olmalı 
             {
-                throw new Exception();
+                return new ErrorResult("hatalı index girişi son indexin değeri ilk indexten büyük olmalıdır");
             }
             var current = Head;
             for (int i = 0; i < startİndex; i++) //ilk önce silmeey başlıyacağımız noudu bulduk
@@ -334,7 +339,7 @@ namespace LinkedListPlus
                 {
                     RemoveFirst();
                 }
-                return;
+                return new SuccessResult();
             }
             var temp = current.Back; //startİndexin baci ni tutyoruz
             for (int i = 1; i <= endİndex - startİndex; i++) //arasındakı kadar ilerleyip hem currenti artırıp sonİndexin nex ini bulmak için
@@ -346,11 +351,11 @@ namespace LinkedListPlus
             //burada 
             if (current == Tail) //current son ise bağlama işlemi yapılmasına gerek yoktur
             {
-                return;
+                return new SuccessResult();
             }
             temp.Next = current;
             current.Back = temp;
-
+            return new SuccessResult();
         }
 
         /// <summary>
