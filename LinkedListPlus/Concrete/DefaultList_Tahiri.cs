@@ -286,11 +286,11 @@ namespace LinkedListPlus
                 return new ErrorResult("Listeniz sıralanabilecek türden bir liste değil.");
             }
         }
-        private static void Validate(object? toValidate)
+        public void Validate(object? toValidate)
         {
             if (toValidate == null) throw new NullReferenceException("One of the related object is null");
         }
-        private static void Validate(object? toValidate , object? toValidate2)
+        public void Validate(object? toValidate , object? toValidate2)
         {
             if (toValidate == null || toValidate2 == null) throw new NullReferenceException("One or both of the related objects are null");
         }

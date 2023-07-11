@@ -18,5 +18,7 @@ namespace LinkedListPlus
         IResult Sort();
         IEnumerator<T> GetEnumerator();
         bool IsDecimalType(Type type);
+        void Validate(object? toValidate);
+        void Validate(object? toValidate, object? toValidate2);
     }
 }
