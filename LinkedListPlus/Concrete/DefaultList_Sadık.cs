@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,7 +64,7 @@ namespace LinkedListPlus
                     var value = Head;
                     for (int i = 0; i < index; i++)
                     { //istenilen index den 1 fazlası kadar düğümü ileriye alıyoruz
-                        value = value.Next; 
+                        value = value.Next;
                     }
                     return value.Value; //değeri döndürüyoruz
                 }
@@ -82,9 +84,9 @@ namespace LinkedListPlus
                     }
                     data.Value = value;
                 }
-                else if(count + 1 == index)
+                else if (count + 1 == index)
                 {
-                    if(value != null)
+                    if (value != null)
                     {
                         AddLast(value);
                     }
@@ -186,16 +188,16 @@ namespace LinkedListPlus
             {
                 throw new ArgumentNullException(nameof(node), "Düğüm null olamaz.");
             }
-            if (node == Tail) 
+            if (node == Tail)
             {
-                
+
                 Tail.Back = Tail.Back.Back;
                 Tail.Back.Next = Tail;
-               // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
+                // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 count--;
                 return;
             }
-            if (node == Head) 
+            if (node == Head)
             {
                 return; //öncesi yok bişey yapmaya gerek yoktur
             }
@@ -315,5 +317,96 @@ namespace LinkedListPlus
         {
             return GetEnumerator();
         }
+        /// <summary>
+        /// Gönderilen IEnumerable<T> türündeki koleksiyon içerisindeki tüm değerleri siler
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void RemoveRange(IEnumerable<T> collection)
+        {
+            if (collection == null)
+            {
+                throw new ArgumentNullException();
+            }
+            foreach (var item in collection) //gelen koleksiyonu dönerek değerleri siliyoruz
+            {
+                RemoveAtValue(item);
+            }
+        }
+
+        /// <summary>
+        /// Verilen indexler dahil edilerek silme işlemi yapılır
+        /// </summary>
+        /// <param name="startİndex"></param>
+        /// <param name="endİndex"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="Exception"></exception>
+        public void RemoveRange(int startİndex, int endİndex)
+        {
+            if (startİndex == null || endİndex == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (endİndex > count - 1) //elemansayısından buyuk bir değerde silme işlemi olamaz -1 dememizin sebebi index olarak düşünmek
+            {
+                throw new Exception();
+            }
+            if (endİndex < startİndex) //end index buyuk olmalı 
+            {
+                throw new Exception();
+            }
+            var current = Head;
+            for (int i = 0; i < startİndex; i++) //ilk önce silmeey başlıyacağımız noudu bulduk
+            {
+                current = current.Next;
+            }
+            if (current == Head) //current head e eşit ise 
+            {
+                for (int i = 0; i <= endİndex - startİndex; i++) //arasındakı fark kadar baştan silme işlemi yaptık
+                {
+                    RemoveFirst();
+                }
+                return;
+            }
+            var temp = current.Back; //startİndexin baci ni tutyoruz
+
+            for (int i = 1; i <= endİndex - startİndex; i++) //arasındakı kadar ilerleyip hem currenti artırıp sonİndexin nex ini bulmak için
+            {
+                var temp1 = current;
+                current = current.Next;
+                temp1.Invalidate(); //burada aradaki tüm elemanların bağlantısını koparıyoruz
+            }
+            //burada 
+            if (current == Tail) //current son ise bağlama işlemi yapılmasına gerek yoktur
+            {
+                return;
+            }
+            temp.Next = current;
+            current.Back = temp;
+
+        }
+
+        /// <summary>
+        /// Gireln değeri listede nekadar var ise hepsini siler
+        /// </summary>
+        /// <param name="number"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void RemoveAll(T value)
+        {
+            while (true)
+            {
+                try
+                {
+                    RemoveAtValue(value); //buradaki kod ilk gelen değeri silmeye yarıyor
+                    //buradaki kodda herhangibir hata olduğuzaman yani oda ilgili silincek değeri bulamaz ise ilgili değer bitmiş demektir
+                }
+                catch (Exception)
+                {
+                    break; //silme işlemi tamamlanmıştır
+                }
+            }
+        }
+
+
     }
 }
