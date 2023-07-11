@@ -14,7 +14,7 @@ namespace LinkedListPlus
 {
     public partial class DefaultList<T> : IEnumerable<T>, IViaList<T>
     {
-        public DefaultList(IEnumerable<T> collection)
+        public DefaultList(IEnumerable<T> collection) : this()
         {
             //ilk tanımlanma ısrasında hazır bir listeyi bu listeye ekleme işlemini yapar
             foreach (var item in collection)
@@ -32,19 +32,17 @@ namespace LinkedListPlus
         public T RemoveFirst()
         {
             var value = Head.Value; // Değeri dönmek için geçici bir değişkende sakla
-            if (Head != null) // Liste boş değilse devam et
+            Validate(Head);// Liste boş değilse devam et
+            if (Head.Next != null) // Başka bir öğe varsa
             {
-                if (Head.Next != null) // Başka bir öğe varsa
-                {
-                    Head.Next.Back = null; // İkinci öğenin öncesini null yap
-                    Head = Head.Next; // Yeni başlangıç değerimizi ikinci öğe olarak güncelle
-                }
-                else // Sadece bir öğe varsa
-                {
-                    Head = null; // Listeyi boşalt
-                }
-                count--;
+                Head.Next.Back = null; // İkinci öğenin öncesini null yap
+                Head = Head.Next; // Yeni başlangıç değerimizi ikinci öğe olarak güncelle
             }
+            else // Sadece bir öğe varsa
+            {
+                Head = null; // Listeyi boşalt
+            }
+            count--;
             return value; // Kaldırılan değeri dön
         }
 
@@ -110,10 +108,7 @@ namespace LinkedListPlus
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Next;
             // İlk olarak, düğümün null olup olmadığını kontrol ediyoruz.
-            if (node == null)
-            {
-                throw new ArgumentNullException(nameof(node), "Düğüm null olamaz.");
-            }
+            Validate(node); //node boş ise hata veriri
             if (node == Head) //head e eşit ise bi sonrasını silicez 
             {
                 //buradaki işlemde headin bi sonrakinin atlıayarak bağlantılar yapılıyor
@@ -151,13 +146,8 @@ namespace LinkedListPlus
         /// <exception cref="NullReferenceException"></exception>
         public T RemoveLast()
         {
-            if (Tail == null)
-            {
-                throw new NullReferenceException("Listede eleman bulunmuyor.");
-            }
-
+            Validate(Tail); //boş ise hata verir
             var value = Tail.Value; // Silinen düğümün değerini saklamak için bir değişkende tutarız
-
             // Listenin sadece bir düğümü varsa, Head ve Tail'e null atanır
             if (Head == Tail)
             {
@@ -169,7 +159,6 @@ namespace LinkedListPlus
                 Tail.Back.Next = null; // Sondan bir önceki düğümün sonraki referansını null yaparız
                 Tail = Tail.Back; // Yeni tail, bir önceki düğüm olur
             }
-
             count--;
             return value; // Saklanan değeri döndürürüz
         }
@@ -184,13 +173,9 @@ namespace LinkedListPlus
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Back;
             // İlk olarak, düğümün null olup olmadığını kontrol ediyoruz.
-            if (node == null)
-            {
-                throw new ArgumentNullException(nameof(node), "Düğüm null olamaz.");
-            }
+            Validate(node); //null kontrolü
             if (node == Tail)
             {
-
                 Tail.Back = Tail.Back.Back;
                 Tail.Back.Next = Tail;
                 // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
@@ -224,10 +209,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public void RemoveAt(ViaListNode<T> node)
         {
-            if (node == null)
-            {
-                throw new ArgumentException("Node must not be null");
-            }
+            Validate(node);//null kontrolü
             if (node == Head && node == Tail)
             {
                 // Sadece bir düğüm varsa, listeyi boşalt
@@ -265,13 +247,9 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public void RemoveAtValue(T value)
         {
-            if (value == null)
-            {
-                throw new ArgumentException("Item must not be null");
-            }
+            Validate(value);//null  kontrolü
             RemoveAt(SearchNode(value)); //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
                                          //count--; //bunu yapamayız cunku usteki removeat de de orası calışmış olucak normalden 1 eksık eleman gosterıcektır 
-
         }
 
         /// <summary>
@@ -283,11 +261,7 @@ namespace LinkedListPlus
         /// <exception cref="Exception"></exception>
         public ViaListNode<T> SearchNode(T value)
         {
-            if (value == null)
-            {
-                throw new ArgumentException("Öğe boş olmamalı"); // Değer boş ise bir ArgumentException fırlatılır.
-            }
-
+            Validate(value);//null kontrolü
             var _current = Head; // Başlangıç düğümü başa ayarlanır.
             while (_current != null)
             {
@@ -324,10 +298,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentNullException"></exception>
         public void RemoveRange(IEnumerable<T> collection)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Validate(collection);//null kontrol
             foreach (var item in collection) //gelen koleksiyonu dönerek değerleri siliyoruz
             {
                 RemoveAtValue(item);
@@ -343,10 +314,7 @@ namespace LinkedListPlus
         /// <exception cref="Exception"></exception>
         public void RemoveRange(int startİndex, int endİndex)
         {
-            if (startİndex == null || endİndex == null)
-            {
-                throw new ArgumentNullException();
-            }
+            Validate(startİndex, endİndex);//null kontrolleri yapılıyor 
             if (endİndex > count - 1) //elemansayısından buyuk bir değerde silme işlemi olamaz -1 dememizin sebebi index olarak düşünmek
             {
                 throw new Exception();
@@ -369,7 +337,6 @@ namespace LinkedListPlus
                 return;
             }
             var temp = current.Back; //startİndexin baci ni tutyoruz
-
             for (int i = 1; i <= endİndex - startİndex; i++) //arasındakı kadar ilerleyip hem currenti artırıp sonİndexin nex ini bulmak için
             {
                 var temp1 = current;
@@ -393,6 +360,7 @@ namespace LinkedListPlus
         /// <exception cref="NotImplementedException"></exception>
         public void RemoveAll(T value)
         {
+            Validate(value);//null kontrolu yapıldı
             while (true)
             {
                 try
