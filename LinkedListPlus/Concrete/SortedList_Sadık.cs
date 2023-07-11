@@ -10,10 +10,7 @@ namespace LinkedListPlus
             foreach (var item in collection)
             {
                 AddFirst(item);
-               
             }
-            ArrayList a = new();
-
         }
         /// <summary>
         /// Bağlı listenin ilk elemanını siler ve değerini döndürür

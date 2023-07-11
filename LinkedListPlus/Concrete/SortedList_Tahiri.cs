@@ -1,6 +1,6 @@
 ﻿namespace LinkedListPlus
 {
-    public partial class SortedList<T> : IViaList<T>
+    public partial class SortedList<T> : IViaList<T> where T : IComparable
     {
         public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -70,11 +70,6 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public DefaultList<ViaListNode<T>> SearchAll(T value)
         {
             throw new NotImplementedException();
@@ -128,6 +123,16 @@
                 default:
                     return false;
             }
+        }
+
+        public void Validate(object? toValidate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Validate(object? toValidate, object? toValidate2)
+        {
+            throw new NotImplementedException();
         }
     }
 }
