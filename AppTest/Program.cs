@@ -4,6 +4,8 @@ internal class Program
     private static void Main(string[] args)
     {
         int[] into = new int[100];
+        ViaList<object> list1 = new ViaList<object>();
+        list1.AddFirst(null);
         ViaList<int> a = new ViaList<int>(10, 20, 30);
         ViaList<int> list = new();
         list.AddFirst(1);

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LinkedListPlus
 {
@@ -58,7 +59,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException">null bir öğe/nesne eklenemez.</exception>
         public void AddFirst(T item)
         {
-            if (item == null) throw new ArgumentException("Item must not be null");
+            Validate(item);
             ViaListNode<T> newNode = new ViaListNode<T>(item);
 
             if (Head == null & Tail == null)
@@ -81,7 +82,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException">null bir öğe/nesne eklenemez.</exception>
         public void AddLast(T item)
         {
-            if (item == null) throw new ArgumentException("Item must not be null");
+            Validate(item);
             ViaListNode<T> newNode = new(item);
             if(Tail == null & Tail == null) { Tail = newNode; Head = newNode; Count++; return; }
 
@@ -98,7 +99,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException">null bir öğe/nesne eklenemez. null olan bir node gönderilemez</exception>
         public void AddAfter(ViaListNode<T> node,T item)
         {
-            if (node == null || item == null) throw new ArgumentException("Item or node are empty! They are must not be null!");
+            Validate(node,item);
             ViaListNode<T> newNode = new(item);
             if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
 
@@ -117,7 +118,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode)
         {
-            if (node == null || newNode == null) throw new ArgumentException("NewNode or node are empty! They are must not be null!");
+            Validate(node, newNode);
             if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
 
             var prev = node;
@@ -135,7 +136,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public void AddBefore(ViaListNode<T> node, T item)
         {
-            if (node == null || item == null) throw new ArgumentException("Item or node are empty! They are must not be null!");
+            Validate(node, item);
             ViaListNode<T> newNode = new(item);
             if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
 
@@ -154,6 +155,7 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode)
         {
+            Validate(node, node);
             if (node == null || newNode == null) throw new ArgumentException("NewNode or node are empty! They are must not be null!");
             if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
 
@@ -164,6 +166,7 @@ namespace LinkedListPlus
             newNode.Next = next;
             Count++;
         }
+
         /// <summary>
         /// IEnumerable sınıfından kalıtım alan tüm koleksiyonları/listeleri/arrayleri tek seferde eklemeyi sağlar.
         /// </summary>
@@ -186,8 +189,7 @@ namespace LinkedListPlus
         /// <exception cref="IndexOutOfRangeException"></exception>
         public T[] CopyTo(T[] toCopy, int index)
         {
-            if (toCopy == null) throw new ArgumentNullException("The referance array must not be empty!");
-            if (Head == null) throw new ArgumentNullException("The current list is empty!");
+            Validate(toCopy, Head);
             if (Count > toCopy.Length - index) throw new ArgumentException("There is not enough space in the specified array");
             var ptr = Head;
             for (int i = index; ptr != null; i++)
@@ -211,7 +213,7 @@ namespace LinkedListPlus
         /// <exception cref="IndexOutOfRangeException"></exception>
         public T[] CopyToOneDimensionalArray()
         {
-            if (Head == null) throw new ArgumentNullException("The current list is empty!");
+            Validate(Head);
             var ptr = Head;
             T[] tempArray = new T[Count];
             for (int i = 0; i < tempArray.Length; i++)
@@ -277,7 +279,14 @@ namespace LinkedListPlus
         {
             
         }
-        
+        private static void Validate(object? toValidate)
+        {
+            if (toValidate == null) throw new NullReferenceException("One of the related object is null");
+        }
+        private static void Validate(object? toValidate , object? toValidate2)
+        {
+            if (toValidate == null || toValidate2 == null) throw new NullReferenceException("One or both of the related objects are null");
+        }
     }
     public enum TypeList
     {
