@@ -70,11 +70,6 @@
             throw new NotImplementedException();
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public DefaultList<ViaListNode<T>> SearchAll(T value)
         {
             throw new NotImplementedException();
