@@ -8,5 +8,13 @@ namespace LinkedListPlus
 {
     public partial interface IViaList<T>
     {
+        public ViaListNode<T> Tail { get; }
+        public ViaListNode<T> Head { get; }
+        bool IsEmpty { get;}
+        ViaList<ViaListNode<T>> SearchAll(T value);
+        bool SerachFirst(T value);
+        void AddSort(T Value);
+        void Sort();
+        IEnumerator<T> GetEnumerator();
     }
 }

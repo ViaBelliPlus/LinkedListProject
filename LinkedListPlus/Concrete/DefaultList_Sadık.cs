@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T> : IEnumerable<T>,IVialist<T>
+    public partial class DefaultList<T> : IEnumerable<T>, IViaList<T>
     {
-        public ViaList(IEnumerable<T> collection)
+        public DefaultList(IEnumerable<T> collection)
         {
             //ilk tanımlanma ısrasında hazır bir listeyi bu listeye ekleme işlemini yapar
             foreach (var item in collection)
@@ -303,7 +303,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool Serch(T value) => SearchNode(value) != null ? true : false;
+        public bool SerachFirst(T value) => SearchNode(value) != null ? true : false;
 
         public IEnumerator<T> GetEnumerator() //IEnumerable<T> den inplament edilince gelir burası
         {

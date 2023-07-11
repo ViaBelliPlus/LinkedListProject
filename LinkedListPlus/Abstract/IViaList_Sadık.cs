@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial interface IVialist<T> 
+    public partial interface IViaList<T> 
     {
         uint Count { get;  }
         void AddFirst(T item);
@@ -27,7 +27,6 @@ namespace LinkedListPlus
         void RemoveAt(ViaListNode<T> node);
         void RemoveAtValue(T value);
         ViaListNode<T> SearchNode(T value);
-        bool Serch(T value);
 
     }
 }
