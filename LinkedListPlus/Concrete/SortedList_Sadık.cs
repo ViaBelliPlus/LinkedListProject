@@ -7,6 +7,16 @@
             throw new NotImplementedException();
         }
 
+        public void RemoveAll(int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAll(T value)
+        {
+            throw new NotImplementedException();
+        }
+
         public void RemoveAt(ViaListNode<T> node)
         {
             throw new NotImplementedException();
@@ -28,6 +38,16 @@
         }
 
         public T RemoveLast()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRange(IEnumerable<T> collection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveRange(int startİndex, int endİndex)
         {
             throw new NotImplementedException();
         }

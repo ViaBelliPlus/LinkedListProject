@@ -26,7 +26,10 @@ namespace LinkedListPlus
         void RemoveBefore(ViaListNode<T> node);
         void RemoveAt(ViaListNode<T> node);
         void RemoveAtValue(T value);
+        void RemoveRange(IEnumerable<T> collection);
+        void RemoveRange(int startİndex,int endİndex);
         ViaListNode<T> SearchNode(T value);
+        void RemoveAll(T value);
 
     }
 }

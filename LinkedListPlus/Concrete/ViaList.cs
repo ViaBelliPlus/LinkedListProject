@@ -171,7 +171,18 @@ namespace LinkedListPlus
                     return false;
             }
         }
-
+        public void RemoveRange(IEnumerable<T> collection)
+        {
+            _viaList.RemoveRange(collection);
+        }
+        public void RemoveRange(int startİndex,int endİndex)
+        {
+            _viaList.RemoveRange(startİndex,endİndex);
+        }
+        public void RemoveAll(T value)
+        {
+            _viaList.RemoveAll(value);
+        }
         public IEnumerator<T> GetEnumerator()
         {
             return _viaList.GetEnumerator();
