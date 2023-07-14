@@ -46,5 +46,9 @@
         {
             throw new NotImplementedException();
         }
+        public override IResult AddSort(T Value)
+        {
+            return base.AddSort(Value);
+        }
     }
 }
