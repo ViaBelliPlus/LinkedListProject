@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace LinkedListPlus
         public uint Count => _viaList.Count;
 
         public bool IsEmpty => _viaList.IsEmpty;
-        public bool IsDecimalTypeList => _viaList.IsDecimalTypeList;
+        public bool IsDecimalTypeList => _viaList.IsComparableTypeList;
         public ViaList(TypeList type = TypeList.DefaultList)
         {
             if(type == TypeList.DefaultList)
@@ -76,11 +77,6 @@ namespace LinkedListPlus
         public void AddRange(IEnumerable<T> collection)
         {
             _viaList.AddRange(collection);
-        }
-
-        public void AddSort(T Value)
-        {
-            _viaList.AddSort(Value);
         }
 
         public void Clear()
@@ -158,6 +154,10 @@ namespace LinkedListPlus
         public void RemoveAll(T value)
         {
             _viaList.RemoveAll(value);
+        }
+        public IResult Add(T value)
+        {
+            return _viaList.Add(value);
         }
         public IEnumerator<T> GetEnumerator()
         {

@@ -14,7 +14,7 @@ namespace LinkedListPlus
 
         public ViaListNode<T> Head { get;  set; }
 
-        public abstract bool IsDecimalTypeList { get; init; }
+        public virtual bool IsComparableTypeList { get { return true; } init { value = true; } }
 
         public bool IsEmpty => Count == 0 ? true : false;
 
@@ -22,7 +22,10 @@ namespace LinkedListPlus
         /// Listenin uzunluğunu döner.
         /// </summary>
         public uint Count { get; set; }
-
+        public virtual IResult Add(T item)
+        {
+           return AddFirst(item);
+        }
         public abstract void AddAfter(ViaListNode<T> node, T item);
 
         public abstract void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode);
@@ -31,16 +34,11 @@ namespace LinkedListPlus
 
         public abstract void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode);
 
-        public abstract void AddFirst(T item);
+        public abstract IResult AddFirst(T item);
 
         public abstract void AddLast(T item);
 
         public abstract void AddRange(IEnumerable<T> collection);
-
-        public virtual IResult AddSort(T Value)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Tüm listeyi siler.s
@@ -132,9 +130,9 @@ namespace LinkedListPlus
             Count++;
         }
 
-        public virtual bool IsDecimalType(Type type)
+        public virtual bool IsComparablelType(Type type)
         {
-            if (type == typeof(IComparable))
+            if (type.GetInterfaces().Contains(typeof(IComparable)))
             {
                 return true;
             }
@@ -446,7 +444,10 @@ namespace LinkedListPlus
         /// <returns></returns>
         public bool SerachFirst(T value) => SearchNode(value) != null ? true : false;
 
-        public abstract IResult Sort();
+        public virtual IResult Sort()
+        {
+            return new SuccessResult();
+        }
 
         public void Validate(object? toValidate)
         {

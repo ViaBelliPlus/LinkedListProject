@@ -9,7 +9,7 @@ namespace LinkedListPlus
     public partial interface IViaList<T>
     {
         uint Count { get; set; }
-        abstract void AddFirst(T item);
+        abstract IResult AddFirst(T item);
         abstract void AddLast(T item);
         abstract void AddAfter(ViaListNode<T> node, T item);
         abstract void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode);

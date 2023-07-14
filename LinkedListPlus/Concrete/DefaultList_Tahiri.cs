@@ -10,11 +10,11 @@ namespace LinkedListPlus
 {
     public partial class DefaultList<T> : AbsViaList<T>
     {
-        public override bool IsDecimalTypeList { get; init; }
+        public override bool IsComparableTypeList { get; init; }
 
         public DefaultList()
         {
-            IsDecimalTypeList = IsDecimalType(typeof(T));
+            IsComparableTypeList = IsComparablelType(typeof(T));
         }
         /// <summary>
         /// Kullanıcı istediği kadar öğeyi girerek, listeyi initialize edebilir. 
@@ -32,7 +32,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="item">İlgili türden nesneyi ifade eder.</param>
         /// <exception cref="ArgumentException">null bir öğe/nesne eklenemez.</exception>
-        public override void AddFirst(T item)
+        public override IResult AddFirst(T item)
         {
             Validate(item);
             ViaListNode<T> newNode = new ViaListNode<T>(item);
@@ -42,13 +42,14 @@ namespace LinkedListPlus
                 Head = newNode;
                 Tail = newNode;
                 IncreaseCount();
-                return;
+                return new SuccessResult();
             }
 
             Head.Back = newNode;
             newNode.Next = Head;
             Head = newNode;
             IncreaseCount();
+            return new SuccessResult();
         }
         /// <summary>
         /// Queue yapısı olarak çalışır. Son gelen nesneyi/öğeyi sona ekler.
@@ -164,27 +165,30 @@ namespace LinkedListPlus
             while (ptr != null) { if (ptr == node) { return true; } ptr = ptr.Next; }
             return false;
         }
-        public override IResult AddSort(T Value)
-        {
-            return new ErrorResult("Bu işlem bu liste için kullanılamıyor!");
-        }
-
         public override IResult Sort()
         {
-            if (IsDecimalTypeList)
+            if (IsComparableTypeList)
             {
-                //Sırala
-                throw new InvalidOperationException();
+                SortedList<T> temp = new SortedList<T>(this);
+
+                Clear();
+                
+                foreach (var item in temp)
+                {
+                    AddLast(item);
+                }
+
+                return new SuccessResult();
             }
             else
             {
-                return new ErrorResult("Listeniz sıralanabilecek türden bir liste değil.");
+                return new ErrorResult("İlgili T tipi bir IComparable değildir! ");
             }
         }
     }
     public enum TypeList
     {
         DefaultList = 0,
-        SortedLis = 1
+        SortedList = 1
     }
 }
