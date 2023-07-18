@@ -1,4 +1,6 @@
-﻿namespace LinkedListPlus
+﻿using Core.Utilities.Results;
+
+namespace LinkedListPlus
 {
     public partial class SortedList<T> : AbsViaList<T>
     {
