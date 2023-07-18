@@ -8,7 +8,7 @@ namespace LinkedListPlus
         {
             if (!typeof(T).GetInterfaces().Contains(typeof(IComparable)))
             {
-                throw new ArgumentException("İlgili T tipi bir IComparable değildir! ");
+                throw new ArgumentException("İlgili T tipi bir IComparable değildir!");
             }
             #region Alternatif Yöntem(Not Üsteki daha sağlam)
             //Burada string tipleri ayrıca kontrol etmemiz string türlerin parametris bir constructur yapısına sahip olamamsından kaynaklanır. Çünkü Activator.CreateInstance parametresi olmayan constructorları kullanarak bir instance oluşturmayı dener.
