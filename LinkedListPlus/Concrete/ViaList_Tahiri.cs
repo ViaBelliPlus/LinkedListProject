@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinkedListPlus
 {
-    public partial class ViaList<T> : IEnumerable<T>
+    public partial class ViaList<T> : IEnumerable<T> 
     {
         public readonly IViaList<T> _viaList;
         public ViaListNode<T> Head => _viaList.Head;
