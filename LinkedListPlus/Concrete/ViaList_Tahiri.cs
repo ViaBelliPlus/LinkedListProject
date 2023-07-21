@@ -156,9 +156,9 @@ namespace LinkedListPlus
         {
             _viaList.RemoveAll(value);
         }
-        public IResult Add(T value)
+        public void Add(T value)
         {
-            return _viaList.Add(value);
+            _viaList.Add(value);
         }
         public IEnumerator<T> GetEnumerator()
         {

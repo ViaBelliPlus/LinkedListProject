@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Utilities.Messages;
+using Core.Utilities.Results;
 
 namespace LinkedListPlus
 {
@@ -8,7 +9,7 @@ namespace LinkedListPlus
         {
             if (!typeof(T).GetInterfaces().Contains(typeof(IComparable)))
             {
-                throw new ArgumentException("İlgili T tipi bir IComparable değildir!");
+                throw new ArgumentException(ErrorMessages.NotComparable);
             }
             #region Alternatif Yöntem(Not Üsteki daha sağlam)
             //Burada string tipleri ayrıca kontrol etmemiz string türlerin parametris bir constructur yapısına sahip olamamsından kaynaklanır. Çünkü Activator.CreateInstance parametresi olmayan constructorları kullanarak bir instance oluşturmayı dener.
@@ -38,9 +39,9 @@ namespace LinkedListPlus
             AddSort(newNode.Value);
         }
 
-        public override IResult AddFirst(T item)
+        public override void AddFirst(T item)
         {
-            return AddSort(item);
+            AddSort(item);
         }
 
         public override void AddLast(T item)
@@ -55,7 +56,7 @@ namespace LinkedListPlus
                 AddSort(item);
             }
         }
-        private IResult AddSort(T value)
+        private void AddSort(T value)
         {
             if (value is IComparable comparableValue)
             {
@@ -66,7 +67,6 @@ namespace LinkedListPlus
                 {
                     Head = newNode;
                     Tail = newNode;
-                    return new SuccessResult();
                 }
 
                 if (comparableValue.CompareTo(Tail.Value) > 0)
@@ -74,7 +74,6 @@ namespace LinkedListPlus
                     Tail.Next = newNode;
                     newNode.Back = Tail;
                     Tail = newNode;
-                    return new SuccessResult();
                 }
                 else if (comparableValue.CompareTo(Head.Value) < 0)
                 {
@@ -97,18 +96,14 @@ namespace LinkedListPlus
                             newNode.Back = ptr.Back;
                             ptr.Back = newNode;
                             newNode.Next = ptr;
-                            return new SuccessResult();
                         }
                     }
                 }
             }
             else
             {
-                throw new ArgumentException("Value must implement IComparable<T>", nameof(value));
+                throw new ArgumentException(ErrorMessages.NotComparable, nameof(value));
             }
-
-            return new ErrorResult();
         }
-
     }
 }

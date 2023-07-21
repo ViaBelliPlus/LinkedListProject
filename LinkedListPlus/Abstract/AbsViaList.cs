@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Utilities.Messages;
+using Core.Utilities.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,9 @@ namespace LinkedListPlus
         /// Listenin uzunluğunu döner.
         /// </summary>
         public uint Count { get; set; }
-        public virtual IResult Add(T item)
+        public virtual void Add(T item)
         {
-           return AddFirst(item);
+            AddFirst(item);
         }
         public abstract void AddAfter(ViaListNode<T> node, T item);
 
@@ -35,7 +36,7 @@ namespace LinkedListPlus
 
         public abstract void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode);
 
-        public abstract IResult AddFirst(T item);
+        public abstract void AddFirst(T item);
 
         public abstract void AddLast(T item);
 
@@ -75,7 +76,7 @@ namespace LinkedListPlus
         public T[] CopyTo(T[] toCopy, int index)
         {
             Validate(toCopy, Head);
-            if (Count > toCopy.Length - index) throw new ArgumentException("There is not enough space in the specified array");
+            if (Count > toCopy.Length - index) throw new ArgumentException(ErrorMessages.NotEnoughSpaceMessage);
             var ptr = Head;
             for (int i = index; ptr != null; i++)
             {
@@ -144,7 +145,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public IResult RemoveAfter(ViaListNode<T> node)
+        public void RemoveAfter(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Next;
@@ -157,11 +158,10 @@ namespace LinkedListPlus
                 Head.Next.Next.Back = Head;
                 delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 DecreaseCount(); //count azaltılıyor
-                return new SuccessResult("Remove After metodu başarılı çalıştı");
             }
             if (node == Tail) //tailden sonrası olmadığı için bişey yapmıycaz
             {
-                return new SuccessResult("Son değerden sonrası olmadığı için silme işlemi yapılmadı"); //sonrası yok 
+                throw new ArgumentException(ErrorMessages.NullNodeDeletion);  //sonrası yok 
             }
             if (node == Tail.Back) //tailin 1 öncesine eşit isen 
             {
@@ -169,15 +169,12 @@ namespace LinkedListPlus
                 Tail.Next = null; //bunu işaretlediğini silmez isek garbic collector oncekı taılın referansını tutugu ıcın sılmıycektır onu 
                 delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 DecreaseCount();//count azaltılıyor
-                return new SuccessResult("Remove After metodu başarılı çalıştı");
             }
             //arada biyerde ise normal atlıycak sekilde yazzılır
             node.Next.Next.Back = node;
             node.Next = node.Next.Next;
             delete.Invalidate(); //silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             DecreaseCount();//count azaltılıyor
-            return new SuccessResult("Remove After metodu başarılı çalıştı");
-
         }
 
         /// <summary>
@@ -207,12 +204,12 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentException"></exception>
-        public IResult RemoveAt(ViaListNode<T> node)
+        public void RemoveAt(ViaListNode<T> node)
         {
             Validate(node);//null kontrolü
             if (node.Next == null && node.Back == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException(ErrorMessages.MissingNodeMessage);
             }
             if (node == Head && node == Tail)
             {
@@ -242,7 +239,6 @@ namespace LinkedListPlus
             }
 
             DecreaseCount();
-            return new SuccessResult("Silme işlemi başarılı");
         }
 
         /// <summary>
@@ -250,10 +246,10 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
-        public IResult RemoveAtValue(T value)
+        public void RemoveAtValue(T value)
         {
             Validate(value);//null  kontrolü
-            return RemoveAt(SearchNode(value)); //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
+            RemoveAt(SearchNode(value));        //girilen değeri arayan ve nod dönene arama algorıtmasına yazılır gelen nod u da removeat a gönderip silme işlemi tamamlanır
                                                 //count--; //bunu yapamayız cunku usteki removeat de de orası calışmış olucak normalden 1 eksık eleman gosterıcektır 
         }
 
@@ -262,7 +258,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="node"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public IResult RemoveBefore(ViaListNode<T> node)
+        public void RemoveBefore(ViaListNode<T> node)
         {
             // Belirtilen düğümden sonraki düğümü kaldırma işlemi
             var delete = node.Back;
@@ -274,11 +270,10 @@ namespace LinkedListPlus
                 Tail.Back.Next = Tail;
                 // disconnection(delete);//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 DecreaseCount();
-                return new SuccessResult("Remove Before başarılı çalıştı");
             }
             if (node == Head)
             {
-                return new SuccessResult("Öncesi olmıyan bir değer verdiniz silme işlemi yapılmadı"); //öncesi yok bişey yapmaya gerek yoktur
+                throw new ArgumentException(ErrorMessages.NullNodeDeletion); //öncesi yok bişey yapmaya gerek yoktur
             }
             if (node == Head.Next) //Tailin sonraki ise oncesi tail yapar 
             {
@@ -286,14 +281,12 @@ namespace LinkedListPlus
                 Head.Back = null; //Tamamen bağ kopsun diye yapıldı garbic collector oncekı head referansını tutugu ıcın sılmıycektır onu
                 delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
                 DecreaseCount();
-                return new SuccessResult("Remove Before başarılı çalıştı");
             }
             //Arada biyer ise
             node.Back.Back.Next = node;
             node.Back = node.Back.Back;
             delete.Invalidate();//silincek değerin tüm bağlantıları koparılıyor garbic collector daha kolay yakalasın diye
             DecreaseCount();
-            return new SuccessResult("Remove Before başarılı çalıştı");
         }
 
         /// <summary>
@@ -361,16 +354,16 @@ namespace LinkedListPlus
         /// <param name="endİndex"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="Exception"></exception>
-        public IResult RemoveRange(int startİndex, int endİndex)
+        public void RemoveRange(int startİndex, int endİndex)
         {
             Validate(startİndex, endİndex);//null kontrolleri yapılıyor 
             if (endİndex > Count - 1) //elemansayısından buyuk bir değerde silme işlemi olamaz -1 dememizin sebebi index olarak düşünmek
             {
-                return new ErrorResult("hatalı index girişi listenin uzunlugunu gecen bir değer verdiniz");
+                throw new ArgumentException(ErrorMessages.IndexOutOfRangeMessage);
             }
             if (endİndex < startİndex) //end index buyuk olmalı 
             {
-                return new ErrorResult("hatalı index girişi son indexin değeri ilk indexten büyük olmalıdır");
+                throw new ArgumentException(ErrorMessages.NegativeRangeMessage);
             }
             var current = Head;
             for (int i = 0; i < startİndex; i++) //ilk önce silmeey başlıyacağımız noudu bulduk
@@ -383,7 +376,6 @@ namespace LinkedListPlus
                 {
                     RemoveFirst();
                 }
-                return new SuccessResult();
             }
             var temp = current.Back; //startİndexin baci ni tutyoruz
             for (int i = 1; i <= endİndex - startİndex; i++) //arasındakı kadar ilerleyip hem currenti artırıp sonİndexin nex ini bulmak için
@@ -396,11 +388,10 @@ namespace LinkedListPlus
             //burada 
             if (current == Tail) //current son ise bağlama işlemi yapılmasına gerek yoktur
             {
-                return new SuccessResult();
+                return;
             }
             temp.Next = current;
             current.Back = temp;
-            return new SuccessResult();
         }
 
         public void ResetCount()
@@ -435,7 +426,7 @@ namespace LinkedListPlus
                 }
                 _current = _current.Next; // Bir sonraki düğüme geçilir.
             }
-            throw new Exception("Aranan değer bulunamadı"); // Döngü tamamlandığında hata fırlatılır çünkü aranan değer bulunamadı.
+            throw new ArgumentException(ErrorMessages.MissingValueMessage); // Döngü tamamlandığında hata fırlatılır çünkü aranan değer bulunamadı.
         }
 
         /// <summary>
@@ -445,18 +436,18 @@ namespace LinkedListPlus
         /// <returns></returns>
         public bool SerachFirst(T value) => SearchNode(value) != null ? true : false;
 
-        public virtual IResult Sort()
+        public virtual void Sort()
         {
-            return new SuccessResult();
+            throw new ArgumentException("Bu sınıf için tanımlı olmayan bir metot kullandınız.");
         }
 
         public void Validate(object? toValidate)
         {
-            if (toValidate == null) throw new NullReferenceException("One of the related object is null");
+            if (toValidate == null) throw new NullReferenceException(ErrorMessages.NullObjectMessage);
         }
         public void Validate(object? toValidate, object? toValidate2)
         {
-            if (toValidate == null || toValidate2 == null) throw new NullReferenceException("One or both of the related objects are null");
+            if (toValidate == null || toValidate2 == null) throw new NullReferenceException(ErrorMessages.NullObjectMessage);
         }
     }
 }

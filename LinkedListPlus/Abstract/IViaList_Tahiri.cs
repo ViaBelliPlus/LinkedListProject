@@ -15,7 +15,7 @@ namespace LinkedListPlus
         bool IsEmpty { get;}
         ViaList<ViaListNode<T>> SearchAll(T value);
         bool SerachFirst(T value);
-        IResult Sort();
+        void Sort();
         IEnumerator<T> GetEnumerator();
         bool IsComparablelType(Type type);
         void Validate(object? toValidate);
@@ -23,6 +23,6 @@ namespace LinkedListPlus
         void IncreaseCount();
         void DecreaseCount();
         void ResetCount();
-        IResult Add(T item);
+        void Add(T item);
     }
 }

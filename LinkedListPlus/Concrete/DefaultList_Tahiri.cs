@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results;
+﻿using Core.Utilities.Messages;
+using Core.Utilities.Results;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,7 +34,7 @@ namespace LinkedListPlus
         /// </summary>
         /// <param name="item">İlgili türden nesneyi ifade eder.</param>
         /// <exception cref="ArgumentException">null bir öğe/nesne eklenemez.</exception>
-        public override IResult AddFirst(T item)
+        public override void AddFirst(T item)
         {
             Validate(item);
             ViaListNode<T> newNode = new ViaListNode<T>(item);
@@ -43,14 +44,12 @@ namespace LinkedListPlus
                 Head = newNode;
                 Tail = newNode;
                 IncreaseCount();
-                return new SuccessResult();
             }
 
             Head.Back = newNode;
             newNode.Next = Head;
             Head = newNode;
             IncreaseCount();
-            return new SuccessResult();
         }
         /// <summary>
         /// Queue yapısı olarak çalışır. Son gelen nesneyi/öğeyi sona ekler.
@@ -78,7 +77,7 @@ namespace LinkedListPlus
         {
             Validate(node, item);
             ViaListNode<T> newNode = new(item);
-            if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
+            if (!Contains(node)) throw new ArgumentException(ErrorMessages.MissingNodeMessage);
 
             var prev = node;
             prev.Next.Back = newNode;
@@ -96,7 +95,7 @@ namespace LinkedListPlus
         public override void AddAfter(ViaListNode<T> node, ViaListNode<T> newNode)
         {
             Validate(node, newNode);
-            if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
+            if (!Contains(node)) throw new ArgumentException(ErrorMessages.MissingNodeMessage);
 
             var prev = node;
             prev.Next.Back = newNode;
@@ -115,7 +114,7 @@ namespace LinkedListPlus
         {
             Validate(node, item);
             ViaListNode<T> newNode = new(item);
-            if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
+            if (!Contains(node)) throw new ArgumentException(ErrorMessages.MissingNodeMessage);
 
             var next = node;
             next.Back.Next = newNode;
@@ -132,9 +131,8 @@ namespace LinkedListPlus
         /// <exception cref="ArgumentException"></exception>
         public override void AddBefore(ViaListNode<T> node, ViaListNode<T> newNode)
         {
-            Validate(node, node);
-            if (node == null || newNode == null) throw new ArgumentException("NewNode or node are empty! They are must not be null!");
-            if (!Contains(node)) throw new ArgumentException("The referance node is not in list");
+            Validate(node, newNode);
+            if (!Contains(node)) throw new ArgumentException(ErrorMessages.MissingNodeMessage);
 
             var next = node;
             next.Back.Next = newNode;
@@ -166,7 +164,7 @@ namespace LinkedListPlus
             while (ptr != null) { if (ptr == node) { return true; } ptr = ptr.Next; }
             return false;
         }
-        public override IResult Sort()
+        public override void Sort()
         {
             if (IsComparableTypeList)
             {
@@ -178,12 +176,10 @@ namespace LinkedListPlus
                 {
                     AddLast(item);
                 }
-
-                return new SuccessResult();
             }
             else
             {
-                return new ErrorResult("İlgili T tipi bir IComparable değildir! ");
+                throw new ArgumentException(ErrorMessages.NotComparable);
             }
         }
     }
